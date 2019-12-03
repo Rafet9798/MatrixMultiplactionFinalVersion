@@ -15,9 +15,9 @@ namespace MatrixMultiplactionFinalVersion
         private decimal matrix1Column = Form1.matrix1Column;
         private decimal matrix2Row = Form1.matrix2Row;
         private decimal matrix2Column=Form1.matrix2Column;
-        TextBox[] matrix1 = new TextBox[(int)Form1.matrix1Row * (int)Form1.matrix1Column];
-        TextBox[] matrix2 = new TextBox[(int)Form1.matrix2Row * (int)Form1.matrix2Column];
-        TextBox[] matrixMultiplaction = new TextBox[(int)Form1.matrix1Row * (int)Form1.matrix2Column];
+        TextBox[,] matrix1 = new TextBox[(int)Form1.matrix1Row , (int)Form1.matrix1Column];
+        TextBox[,] matrix2 = new TextBox[(int)Form1.matrix2Row ,(int)Form1.matrix2Column];
+        TextBox[,] matrixMultiplaction = new TextBox[(int)Form1.matrix1Row , (int)Form1.matrix2Column];
 
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -39,21 +39,19 @@ namespace MatrixMultiplactionFinalVersion
         }
         private void CreateMatrix1(decimal row,decimal column,int start,bool readOnly)
         {
-            int indeks = 0;
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < column; j++)
                 {
                     
-                    matrix1[indeks] = new TextBox();
-                    matrix1[indeks].ReadOnly = readOnly;
-                    matrix1[indeks].Size = new Size(40, 20);
-                    matrix1[indeks].Top = (i + 1) * 20;
-                    matrix1[indeks].Left = (j + 1) * 40+start;
-                    indeks++;
+                    matrix1[i,j] = new TextBox();
+                    matrix1[i,j].ReadOnly = readOnly;
+                    matrix1[i,j].Size = new Size(40, 20);
+                    matrix1[i,j].Top = (i + 1) * 20;
+                    matrix1[i,j].Left = (j + 1) * 40+start;
+                    this.Controls.Add(matrix1[i, j]);
                 }
             }
-            this.Controls.AddRange(matrix1);
         }
         private void CreateMatrix2(decimal row, decimal column, int start, bool readOnly)
         {
@@ -63,65 +61,45 @@ namespace MatrixMultiplactionFinalVersion
                 for (int j = 0; j < column; j++)
                 {
 
-                    matrix2[indeks] = new TextBox();
-                    matrix2[indeks].ReadOnly = readOnly;
-                    matrix2[indeks].Size = new Size(40, 20);
-                    matrix2[indeks].Top = (i + 1) * 20;
-                    matrix2[indeks].Left = (j + 1) * 40 + start;
-                    indeks++;
+                    matrix2[i,j] = new TextBox();
+                    matrix2[i,j].ReadOnly = readOnly;
+                    matrix2[i,j].Size = new Size(40, 20);
+                    matrix2[i,j].Top = (i + 1) * 20;
+                    matrix2[i,j].Left = (j + 1) * 40 + start;
+                    this.Controls.Add(matrix2[i, j]);
                 }
             }
-            this.Controls.AddRange(matrix2);
         }
         private void CreateMatrixMultiplaction(decimal row, decimal column, int start, bool readOnly)
         {
-            int indeks = 0;
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < column; j++)
                 {
 
-                    matrixMultiplaction[indeks] = new TextBox();
-                    matrixMultiplaction[indeks].ReadOnly = readOnly;
-                    matrixMultiplaction[indeks].Size = new Size(40, 20);
-                    matrixMultiplaction[indeks].Top = (i + 1) * 20;
-                    matrixMultiplaction[indeks].Left = (j + 1) * 40 + start;
-                    indeks++;
+                    matrixMultiplaction[i,j] = new TextBox();
+                    matrixMultiplaction[i,j].ReadOnly = readOnly;
+                    matrixMultiplaction[i,j].Size = new Size(40, 20);
+                    matrixMultiplaction[i,j].Top = (i + 1) * 20;
+                    matrixMultiplaction[i,j].Left = (j + 1) * 40 + start;
+                    this.Controls.Add(matrixMultiplaction[i,j]);
                 }
             }
-            this.Controls.AddRange(matrixMultiplaction);
         }
         private void BtnCalculate_Click(object sender, EventArgs e)
         {
             double cem = 0;
             int d=0,q=0;
-            int[,] a = new int[(int)matrix1Row, (int)matrix1Column];
-            int[,] b=new int[(int)matrix2Row, (int)matrix2Column];
-            for (int i = 0; i < matrix1Row; i++)
-            {
-                for (int j = 0; j < matrix1Column; j++)
-                {
-                    a[i, j] = int.Parse(matrix1[d++].Text);
-                }
-            }
-            d = 0;
-            for (int i = 0; i < matrix2Row; i++)
-            {
-                for (int j = 0; j < matrix2Column; j++)
-                {
-                    b[i, j] = int.Parse(matrix2[d++].Text);
-                }
-            }
-            d = 0;
+           
             for (int i = 0; i < matrix1Row; i++)
             {
                 for (int j = 0; j < matrix2Column; j++)
                 {
                     for (int k = 0; k < matrix2Row; k++)
                     {
-                        cem +=a[i,k] *b[k,j];
+                        cem +=int.Parse(matrix1[i,k].Text) *int.Parse(matrix2[k,j].Text);
                     }
-                    matrixMultiplaction[d++].Text = cem.ToString();
+                    matrixMultiplaction[i,j].Text = cem.ToString();
                     cem = 0;
                 }
 
